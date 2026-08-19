@@ -40,8 +40,11 @@
                         <a href="#qualifications-{{professional.id}}"
                         data-bs-toggle="collapse"
                         class="qualification-toggle btn btn-info">Exibir</a>
-                        <a href="{% url 'users:professional' id=professional.id %}"
-                        class="btn btn-warning">Editar</a>
+                        
+                        {% if user.is_superuser %}
+                            <a href="{% url 'users:professional' id=professional.id %}"
+                            class="btn btn-warning">Editar</a>
+                        {% endif %}
                     </div></th>
                 </tr>
                 <tr class="collapse" id="qualifications-{{professional.id}}">

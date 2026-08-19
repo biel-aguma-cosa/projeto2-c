@@ -19,7 +19,7 @@
 </head>
 <body class="min-vh-100 d-flex flex-column">
     <header class="container-fluid bg-primary text-light p-3">
-        <h1 class="ms-5 m-3 ">Título</h1>
+        <h1 class="ms-5 m-3 ">Clínica Saúde Viva</h1>
     </header>
     <nav class="container-fluid d-flex flex-row p-2 bg-info">
         <a class="btn btn-info bg-primary" href="{% url 'appointments:list' %}">Minhas Consultas</a>
@@ -35,6 +35,7 @@
                 {% endif %}
             </button>
             <ul class="dropdown-menu p-3">
+                <li class="dropdown-item"><a href="{% url 'users:index' %}">Meu Perfil</a></li>
                 {% if user.is_staff %}
                 <li class="dropdown-item"><a href="{% url 'users:list' %}">Profissionais</a></li>
                 <li class="dropdown-item"><a href="{% url 'admin:index' %}">Django admin</a></li>

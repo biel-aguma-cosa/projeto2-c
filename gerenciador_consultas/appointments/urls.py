@@ -8,5 +8,7 @@ app_name = 'appointments'
 urlpatterns = [
     path('list/'         , views.list_view       , name='list' ),
     path('view/<int:id>/', views.view_appointment, name='view' ),
-    path(''              , views.index           , name='index'),
+
+    path('edit/<int:id>/' , views.edit_view      , name='edit'),
+    path('del/<int:id>/'  , views.delete_view    , name='delete'),
 ]

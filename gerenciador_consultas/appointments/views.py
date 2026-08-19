@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponse
 
@@ -26,18 +26,42 @@ def view_appointment(request, id):
 
 @login_required
 def list_view(request):
-    if hasattr(request.user, 'patient'):
-        patient = request.user.patient
-        return render(request, 'list.html', {
-            'patient':patient, 'appointments':patient.appointments.all})
-    if hasattr(request.user, 'professional'):
-        professional = request.user.professional
-        return render(request, 'list.html', {
-            'patient':professional, 'appointments':professional.appointments.all})
+    context = dict()
+
     if request.user.is_staff:
         return render(request, 'list.html', {'appointments':Appointment.objects.all()})
+    if is_patient := hasattr(request.user, 'patient'):
+        context['patient'] = request.user.patient
+        context['is_patient'] = is_patient
+        context['appointments'] =context['patient'].appointments.all
+    if is_professional :=  hasattr(request.user, 'professional'):
+        context['professional'] = request.user.professional
+        context['is_professional'] = is_professional
+        context['appointments'] =context['professional'].appointments.all
+
+    if is_patient or is_professional:
+        return render(request, 'list.html', context)
+    
     return redirect('appointments:index')
 
-def index(request):
-    return HttpResponse('<h1>INDEX</h1>')
+def edit_view(request, id):
+    appointment = get_object_or_404(Appointment,id=id)
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST, instance=appointment)
+        if form.is_valid():
+            form.save()
+            return redirect('appointments:list')
+    else:
+        form = AppointmentForm(instance=appointment)
+
+    return render(request,'edit.html',{'form':form, 'appointment':appointment,})
+
+def delete_view(request, id):
+    appointment = get_object_or_404(Appointment,id=id)
+    if appointment:
+        appointment.delete()
+    return redirect('appointments:list')
+
+def index_view(request):
+    return render(request, 'home.html', {})
     

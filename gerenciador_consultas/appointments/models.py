@@ -4,7 +4,7 @@ from users.models import Patient, Professional
 
 class Appointment(models.Model):
     class Status(models.TextChoices):
-        PENDING   = 'PENDING'   , 'Pending'
+        PENDING   = 'PENDING'   , 'Pendente'
         CONFIRMED = 'CONFIRMED' , 'Confirmada'
         CANCELLED = 'CANCELLED' , 'Cancelada'
 

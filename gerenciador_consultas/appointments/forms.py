@@ -12,7 +12,10 @@ class AppointmentForm(forms.ModelForm):
             'patient'      : forms.Select({'class':'form-control'}),
             'subject'      : forms.TextInput({'class':'form-control'}),
             'details'      : forms.Textarea ({'class':'form-control'}),
-            'date'   : forms.DateInput({'class':'form-control', 'type':'date'}),
+            'date': forms.DateInput(
+                format='%Y-%m-%d',
+                attrs={'type': 'date'}
+            ),
             'time'   : forms.TimeInput({'class':'form-control', 'type':'time'}),
             'status' : forms.Select({'class':'form-control'},choices=Appointment.Status)
         }
