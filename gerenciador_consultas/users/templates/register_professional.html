@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{title}} Profissionais
+{% endblock title %}
+
+
+{% block content %}
+    <div class="container mt-1 d-flex align-items-center flex-column">
+        <span class="mb-3"><h3>{{title}} Profissional</h3></span>
+        <div class="card d-flex p-1 ps-3 pe-3">
+            <div class="card-body">
+                
+                {% if professional %}
+                <form action="{% url 'users:professional' id=professional.id %}" method="post">
+                {% else %}
+                <form action="{% url 'users:professional' %}" method="post">
+                {% endif %}
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">
+                        Confirmar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+    

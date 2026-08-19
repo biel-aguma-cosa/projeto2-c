@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Document{% endblock title %}</title>
+    <style>
+        .errorlist {
+            font-size: .8rem;
+            color: rgb(151, 151, 151);
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+    {% block style %}
+        
+    {% endblock style %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body class="min-vh-100 d-flex flex-column">
+    <header class="container-fluid bg-primary text-light p-3">
+        <h1 class="ms-5 m-3 ">Título</h1>
+    </header>
+    <nav class="container-fluid d-flex flex-row p-2 bg-info">
+        <a class="btn btn-info bg-primary" href="{% url 'appointments:list' %}">Minhas Consultas</a>
+        {% if user.is_authenticated %}
+        <div class="dropdown ms-auto">
+            <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                {% if user.patient %}
+                    {{user.patient.name}}
+                {% elif user.professional %}
+                    {{user.professional.name}}
+                {% else %}
+                    {{user.username}}
+                {% endif %}
+            </button>
+            <ul class="dropdown-menu p-3">
+                {% if user.is_staff %}
+                <li class="dropdown-item"><a href="{% url 'users:list' %}">Profissionais</a></li>
+                <li class="dropdown-item"><a href="{% url 'admin:index' %}">Django admin</a></li>
+                {% endif %}
+                <li class="dropdown-divider"></li>
+                <li class="dropdown-item"><a href="{% url 'users:logout' %}">Desconectar-se</a></li>
+            </ul>
+        </div>
+        {% else %}
+        <div class="ms-auto">
+            <a class="btn btn-info bg-primary" href="{% url 'users:register' %}">Registrar-se</a>
+            <a class="btn btn-info bg-primary" href="{% url 'users:login' %}">Login</a>
+        </div>
+        {% endif %}
+            
+    </nav>
+    <main class="container-fluid bg-light flex-grow-1 p-3">
+        {% block content %}
+        {% endblock content %}
+    </main>
+    <footer class="container-fluid bg-primary text-light p-3">
+        &copy;blabla
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    {% block script %}{% endblock script %}
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Detalhes da Consulta
+{% endblock title %}
+
+
+{% block content %}
+    <div class="card">
+        <h4>Consulta de {{patient.full_name}}</h4>
+        <div class="card-body">
+            <h5>Profissional:</h5>
+            <p>{{appointment.professional.full_name}}</p>
+            <h5>Assunto:</h5>
+            <p>{{appointment.subject}}</p>
+            <div class="card">
+                {{appointment.details}}
+            </div>
+        </div>
+        <div class="card-footer">
+            <p>Data: {{appointment.date}}</p>
+            <p>Hora: {{appointment.time}}</p>
+        </div>
+    </div>
+{% endblock content %}
+    

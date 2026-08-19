@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Aba do Usuário
+{% endblock title %}
+
+
+{% block content %}
+    {% if is_either %}
+        {% if patient %}
+            <div class="card" id="limited-thingy">
+                <div class="card-header">
+                    <strong>{{patient.full_name}}</strong>
+                </div>
+                <div class="card-body">
+                    <span class="d-flex justify-content-between">
+                        <strong>Usuário:</strong> {{patient.user.username}}</span>
+                    {% if patient.user.email %}
+                        <span class="d-flex justify-content-between">
+                    <strong>E-Mail:</strong> <span>{{patient.user.email}}</span></span>
+                    {% endif %}
+                    <span class="d-flex justify-content-between">
+                        <strong>Telefone:</strong> {{patient.phone}}</span>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-danger" href="{% url 'users:logout' %}">Desconectar-se</a>
+                </div>
+            </div>
+        {% elif professional %}
+            <div class="card">
+                <div class="card-header">
+                    {{professional.full_name}}
+                </div>
+                <div class="card-body">
+                    <span class="d-flex justify-content-between">
+                        <strong>Usuário:</strong> {{professional.user.username}}</span>
+                    <span class="d-flex justify-content-between">
+                        <strong>E-Mail:</strong> {{professional.user.email}}</span>
+                    <span class="d-flex justify-content-between">
+                        <strong>Telefone:</strong> {{professional.phone}}</span>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-danger" href="{% url 'users:logout' %}">Desconectar-se</a>
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        {% if user.is_authenticated %}
+            <p> {{user.username}}</p>    
+        {% else %}
+            <p> no user found </p>
+        {% endif %}
+    {% endif %}     
+{% endblock content %}
+    

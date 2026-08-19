@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Profissionais
+{% endblock title %}
+
+{% block style %}
+<style>
+    #qualification-header {
+        max-width: 1rem;
+    }
+</style>
+{% endblock style %}
+    
+{% block content %}
+    <div class="container mt-4 d-flex align-items-center flex-column">
+        <h4>Lista de Profissionais</h4>
+        
+        {% if user.is_superuser %}
+        <a class="btn btn-success" href="{% url 'users:professional' %}">Adicionar</a>
+        {% endif %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>Usuário</th>
+                    <th>E-Mail</th>
+                    <th id="qualification-header">Qualificações</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for professional in professionals %}
+                <tr>
+                    <th>{{professional.full_name}}</th>
+                    <th>{{professional.phone}}</th>
+                    <th>{{professional.user.username}}</th>
+                    <th>{{professional.user.email}}</th>
+                    <th><div>
+                        <a href="#qualifications-{{professional.id}}"
+                        data-bs-toggle="collapse"
+                        class="qualification-toggle btn btn-info">Exibir</a>
+                        <a href="{% url 'users:professional' id=professional.id %}"
+                        class="btn btn-warning">Editar</a>
+                    </div></th>
+                </tr>
+                <tr class="collapse" id="qualifications-{{professional.id}}">
+                    <td colspan="4">
+                        <strong>Qualificações:</strong>
+                        {% for qualification in professional.qualifications.all %}
+                            {{ qualification.name }}{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                            Nenhuma qualificação.
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %} 
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}
+    
+{% block script %}
+<script>
+    document.querySelectorAll('.qualification-toggle').forEach(button => {
+        const target = document.querySelector(button.getAttribute('href'));
+
+        target.addEventListener('show.bs.collapse', () => {
+            button.textContent = 'Ocultar';
+        });
+
+        target.addEventListener('hide.bs.collapse', () => {
+            button.textContent = 'Exibir';
+        });
+    });
+</script>
+{% endblock script %}
+    

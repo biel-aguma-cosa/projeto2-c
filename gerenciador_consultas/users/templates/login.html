@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Fazer Login
+{% endblock title %}
+
+
+{% block content %}
+    <div class="container mt-4 d-flex align-items-center flex-column">
+        <h4>Fazer Login</h4>
+        <div class="card d-flex p-5">
+            <div class="card-body">
+                <form action="{% url 'users:login' %}" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">
+                        Entrar
+                    </button>
+                </form>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'users:register' %}"><small>Registrar-se</small></a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+    

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Registrar-se
+{% endblock title %}
+
+
+{% block content %}
+    <div class="container mt-4 d-flex align-items-center flex-column">
+        <h4>Registrar-se</h4>
+        <div class="card d-flex p-5">
+            <div class="card-body">
+                <form action="{% url 'users:register' %}" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">
+                        Registrar-se
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+    

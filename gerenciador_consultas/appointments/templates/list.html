@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Lista de Consultas
+{% endblock title %}    
+
+{% block content %}
+    <div class="mt-3 d-flex flex-column align-items-center">
+    {% for appointment in appointments %}
+        <div class="card">
+            {% if professional %}
+            <div class="card-header">
+                {{patient.full_name}}
+            </div>
+            {% endif %}
+            <div class="card-body">
+                {% if patient %}
+                <p><strong>Profissional:</strong></p>
+                <p>{{appointment.professional}}</p>
+                {% endif %}
+                <p><strong>Assunto:</strong></p>
+                <p>{{appointment.subject}}</p>
+                <p><strong>Data e Hora:</strong></p>
+                <p>{{appointment.date}}</p>
+                <p>{{appointment.time}}</p>
+                <p><strong>Detalhes:</strong></p>
+                <p>{{appointment.details}}</p>
+            </div>
+            {% if user.is_staff %}
+            <div class="card-footer">
+                Editar Cancelar
+            </div>
+            {% endif %}
+        </div>
+    {% empty %}
+        <h3>Nenhuma Consulta Agendada</h3>
+    {% endfor %}
+    </div>
+{% endblock content %}
+    
