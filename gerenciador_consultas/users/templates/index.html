@@ -6,13 +6,14 @@
 
 
 {% block content %}
+    <div class="d-flex flex-row justify-content-center gap-3">
     {% if is_either %}
         {% if patient %}
-            <div class="card" id="limited-thingy">
+            <div class="card" style="min-width: 400px; max-width: 400px; min-height: 300px;">
                 <div class="card-header">
                     <strong>{{patient.full_name}}</strong>
                 </div>
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
                     <span class="d-flex justify-content-between">
                         <strong>Usuário:</strong> {{patient.user.username}}</span>
                     {% if patient.user.email %}
@@ -21,6 +22,7 @@
                     {% endif %}
                     <span class="d-flex justify-content-between">
                         <strong>Telefone:</strong> {{patient.phone}}</span>
+                    <span class="text-danger mt-auto" style="font-size: .8rem;"><strong>SENHA PADRÃO = NÚMERO DE TELEFONE</strong></span>
                 </div>
                 <div class="card-footer">
                     <a class="btn btn-danger" href="{% url 'users:logout' %}">Desconectar-se</a>
@@ -29,15 +31,16 @@
         {% elif professional %}
             <div class="card">
                 <div class="card-header">
-                    {{professional.full_name}}
+                    <strong>{{professional.full_name}}</strong>
                 </div>
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
                     <span class="d-flex justify-content-between">
                         <strong>Usuário:</strong> {{professional.user.username}}</span>
                     <span class="d-flex justify-content-between">
                         <strong>E-Mail:</strong> {{professional.user.email}}</span>
                     <span class="d-flex justify-content-between">
                         <strong>Telefone:</strong> {{professional.phone}}</span>
+                    <span class="text-danger mt-auto" style="font-size: .8rem;"><strong>SENHA PADRÃO = ÚltimoNome321 (Ex.: Silva321)</strong></span>
                 </div>
                 <div class="card-footer">
                     <a class="btn btn-danger" href="{% url 'users:logout' %}">Desconectar-se</a>
@@ -50,6 +53,15 @@
         {% else %}
             <p> no user found </p>
         {% endif %}
-    {% endif %}     
+    {% endif %}
+    <div class="card">
+        <form method="post">
+            {% csrf_token %}
+            <div class="card-header">Alterar senha</div>
+            <div class="card-body">{{form.as_p}}</div>
+            <div class="card-footer"><button type="submit" class="btn btn-primary">Confirmar</button></div>
+        </form>
+    </div>
+    </div>
 {% endblock content %}
     

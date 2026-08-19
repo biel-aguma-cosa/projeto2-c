@@ -30,6 +30,13 @@ def list_view(request):
 
     if request.user.is_staff:
         return render(request, 'list.html', {'appointments':Appointment.objects.all()})
+    else:
+        return redirect('appointments:my_list')
+
+@login_required
+def my_list_view(request):
+    context = dict()
+
     if is_patient := hasattr(request.user, 'patient'):
         context['patient'] = request.user.patient
         context['is_patient'] = is_patient
@@ -38,11 +45,8 @@ def list_view(request):
         context['professional'] = request.user.professional
         context['is_professional'] = is_professional
         context['appointments'] =context['professional'].appointments.all
-
-    if is_patient or is_professional:
-        return render(request, 'list.html', context)
     
-    return redirect('appointments:index')
+        return render(request, 'list.html', context)
 
 def edit_view(request, id):
     appointment = get_object_or_404(Appointment,id=id)

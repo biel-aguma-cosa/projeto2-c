@@ -114,3 +114,8 @@ class ProfessionalQualification(models.Model):
         Professional , verbose_name='Profissional' , on_delete=models.CASCADE)
     qualification = models.ForeignKey(
         Qualification, verbose_name='Qualification', on_delete=models.CASCADE)
+    class Meta:
+        verbose_name = 'Qualificações do Profissional'
+        verbose_name_plural = 'Qualificações dos Profissionais'
+    def __str__(self):
+        return f'{self.professional}, {self.qualification}'

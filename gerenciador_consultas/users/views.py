@@ -3,7 +3,7 @@ from django.contrib.auth import login, logout
 
 from django.contrib.auth.decorators import login_required
 
-from users.forms  import PatientForm, ProfessionalForm, ProfessionalModelForm, LoginForm
+from users.forms  import PatientForm, ProfessionalForm, ProfessionalModelForm, LoginForm, PasswordForm
 from users.models import Patient, Professional
 
 # Create your views here.
@@ -16,8 +16,18 @@ def index_view(request):
         context['patient'] = user.patient       
     elif is_professional := hasattr(user, 'professional'):
         context['professional'] = user.professional
-
     context['is_either'] = (is_patient or is_professional)
+
+    if request.method == 'POST':
+        form = PasswordForm(user, request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('users:index')
+    else:
+        form = PasswordForm(user)
+
+    context['form'] = form
 
     return render(request, 'index.html', context)
 

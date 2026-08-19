@@ -1,6 +1,6 @@
 from django import forms
 from users.models import Qualification, Professional
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 
 from django.core.validators import RegexValidator
 
@@ -24,6 +24,20 @@ class LoginForm(AuthenticationForm):
             'class': 'form-control',
         })
     )
+class PasswordForm(PasswordChangeForm):
+    old_password  = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+    }), label='Senha Anterior')
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+    }), label='Nova Senha')
+    new_password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+    }), label='Nova Senha')
+
 
 class PatientForm(forms.Form):
     full_name = forms.CharField(
