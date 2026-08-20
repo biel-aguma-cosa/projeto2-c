@@ -97,6 +97,7 @@ def register_view(request):
         form = PatientForm(data = request.POST)
     return render(request,'register.html',{'form':form})
 
+
 def logout_view(request):
     if request.user.is_authenticated:
         logout(request)

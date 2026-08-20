@@ -22,12 +22,12 @@ class PatientManager(models.Manager):
         return patient
     
 class Patient(models.Model):
-    name      = models.CharField(max_length=20)
-    full_name = models.CharField(max_length=80)
+    name      = models.CharField(max_length=20, verbose_name='Nome')
+    full_name = models.CharField(max_length=80, verbose_name='Nome Completo')
 
-    phone     = models.CharField(max_length= 9)
+    phone     = models.CharField(max_length= 9, verbose_name='Telefone')
 
-    user      = models.OneToOneField(User, on_delete=models.CASCADE)
+    user      = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Usuário')
 
     objects   = PatientManager()
     class Meta:
