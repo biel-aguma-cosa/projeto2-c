@@ -46,7 +46,7 @@ def my_list_view(request):
         context['is_professional'] = is_professional
         context['appointments'] = context['professional'].appointments.all
     
-        return render(request, 'list.html', context)
+    return render(request, 'list.html', context)
 
 @login_required
 def edit_view(request, id):
