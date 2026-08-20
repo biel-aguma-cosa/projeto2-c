@@ -3,18 +3,63 @@
 {% block title %}Consultas | Clínica Saúde Viva{% endblock title %}
 
 {% block content %}
+{% if overlay and appointment %}
+    <div id="overlay" class="position-fixed top-0 start-0 vw-100 vh-100 bg-opacity-50 bg-black d-flex flex-column
+    align-items-center justify-content-center" style="z-index: 1050;">
+        <div class="card opacity-100 p-2 py-2" style="max-width: 600px;max-height: 600px;">
+            <div class="card-header">
+                <span class="mb-4">Deletar Consulta</span>
+            </div>
+            <div class="card-body">
+                <p class="h6 m-1"><strong>Tem certeza que deseja deletar a consulta de</strong></p>
+                <p class="h6 m-1 ms-2"><strong>{{appointment.patient.full_name}}?</strong></p>
+                <p class="h6 m-1 text-secondary small">Marcada para {{appointment.date}} as {{appointment.time}}</p>
+            </div>
+            <div class="card-footer d-flex justify-content-end gap-2 align-items-center">
+                <a href="{% url 'appointments:delete' id=appointment.id confirm=1 %}"
+                class="btn btn-sm btn-outline-danger">
+                    Confirmar
+                </a>
+                <a href="{% url 'appointments:list' %}"
+                class="btn btn-sm btn-outline-primary">
+                    Cancelar
+                </a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
 <div class="d-flex justify-content-between page-header mb-4">
     <div>
         <div class="eyebrow mb-2">Visão geral</div>
-        <h1 class="page-title mb-1">Consultas</h1>
+        <div class="d-flex flex-row justify-content-start gap-4 align-items-center">
+            <h1 class="page-title mb-1">
+                
+                {% if global_list %}
+                    Gerenciar Consultas
+                {% else %}
+                    Minhas Consultas
+                {% endif %}
+            </h1>
+            <div>
+                
+                {% if global_list %}
+                    <a href="{% url 'appointments:add' %}" class="btn btn-sm btn-outline-primary p-1" 
+                    style="font-size: small;">Registrar +</a>
+                {% endif %}
+            </div>
+        </div>
+        
+        {% if not global_list %}
         <p class="text-secondary mb-0">Organize seus atendimentos em um só lugar.</p>
+        {% endif %}
     </div>
 </div>
 
 <section class="panel p-3">
     <div class="appointments">
         {% for appointment in appointments %}
-        <div class="card">
+        <div class="card" style="max-width: 600px;">
             {% if user.is_staff %}
             <div class="card-header">
                 <div class="patient-name">{{ appointment.patient.full_name }}</div>
@@ -41,7 +86,7 @@
             {% if user.is_staff %}
             <div class="card-footer d-flex gap-2">
                 <a href="{% url 'appointments:edit' id=appointment.id %}" class="btn btn-sm btn-outline-secondary">Editar</a>
-                <a href="{% url 'appointments:delete' id=appointment.id %}" class="btn btn-sm btn-outline-danger">Excluir</a>
+                <a href="{% url 'appointments:delete' id=appointment.id confirm=0 %}" class="btn btn-sm btn-outline-danger">Excluir</a>
             </div>
             {% endif %}
         </div>
@@ -51,3 +96,12 @@
     </div>
 </section>
 {% endblock content %}
+
+
+{% block script %}
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+[...tooltipTriggerList].map(el => new bootstrap.Tooltip(el));
+    </script>
+{% endblock script %}
+    

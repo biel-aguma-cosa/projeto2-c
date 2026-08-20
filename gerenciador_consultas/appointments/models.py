@@ -14,7 +14,7 @@ class Appointment(models.Model):
     )
     professional = models.ForeignKey(
         Professional, on_delete=models.CASCADE,
-        verbose_name='Paciente', related_name='appointments'
+        verbose_name='Profissional', related_name='appointments'
     )
 
     date = models.DateField(verbose_name='Data')
