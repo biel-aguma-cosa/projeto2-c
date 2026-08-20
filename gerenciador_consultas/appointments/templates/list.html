@@ -1,68 +1,107 @@
 {% extends 'base.html' %}
 
-{% block title %}
-    Lista de Consultas
-{% endblock title %}
-
-
-{% block style %}
-    <style>
-        .appointments {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .appointments .card {
-            flex: 0 0 calc((100% - 2rem) / 3);
-        }
-
-    </style>
-{% endblock style %}
-    
+{% block title %}Consultas | Clínica Saúde Viva{% endblock title %}
 
 {% block content %}
-    <div class="mt-3 d-flex flex-row gap-4 align-items-center">
-        <div class="appointments">
-        {% for appointment in appointments %}
-            <div class="card mt-3">
-                {% if user.is_staff %}
-                <div class="card-header">
-                    <p><strong>Profissional:</strong> {{appointment.professional.full_name}}</p>
-                    <p><strong>Paciente:</strong> {{appointment.patient.full_name}}</p>
-                </div>
-                {% elif is_professional %}
-                <div class="card-header">
-                    <strong>{{appointment.patient.full_name}}</strong>
-                </div>
-                {% endif %}
-                <div class="card-body">
-                    {% if is_patient %}
-                    <p><strong>Profissional:</strong></p>
-                    <p>{{appointment.professional.full_name}}</p>
-                    {% endif %}
-                    <p><strong>Assunto:</strong></p>
-                    <p>{{appointment.subject}}</p>
-                    <p><strong>Data e Hora:</strong></p>
-                    <p>{{appointment.date}}</p>
-                    <p>{{appointment.time}}</p>
-                    <p><strong>Detalhes:</strong></p>
-                    <p>{{appointment.details}}</p>
-                    <p><strong>Estado:</strong> {{ appointment.get_status_display }}</p>
-                </div>
-                {% if user.is_staff %}
-                <div class="card-footer">
-                    <a href="{% url 'appointments:edit' id=appointment.id %}"
-                    class="btn btn-warning">Editar</a>
-                    <a href="{% url 'appointments:delete' id=appointment.id %}"
-                    class="btn btn-danger">Deletar</a>
-                </div>
-                {% endif %}
+{% if overlay and appointment %}
+    <div id="overlay" class="position-fixed top-0 start-0 vw-100 vh-100 bg-opacity-50 bg-black d-flex flex-column
+    align-items-center justify-content-center" style="z-index: 1050;">
+        <div class="card opacity-100 p-2 py-2" style="max-width: 600px;max-height: 600px;">
+            <div class="card-header">
+                <span class="mb-4">Deletar Consulta</span>
             </div>
-        {% empty %}
-            <h3>Nenhuma Consulta Agendada</h3>
-        {% endfor %}
+            <div class="card-body">
+                <p class="h6 m-1"><strong>Tem certeza que deseja deletar a consulta de</strong></p>
+                <p class="h6 m-1 ms-2"><strong>{{appointment.patient.full_name}}?</strong></p>
+                <p class="h6 m-1 text-secondary small">Marcada para {{appointment.date}} as {{appointment.time}}</p>
+            </div>
+            <div class="card-footer d-flex justify-content-end gap-2 align-items-center">
+                <a href="{% url 'appointments:delete' id=appointment.id confirm=1 %}"
+                class="btn btn-sm btn-outline-danger">
+                    Confirmar
+                </a>
+                <a href="{% url 'appointments:list' %}"
+                class="btn btn-sm btn-outline-primary">
+                    Cancelar
+                </a>
+            </div>
         </div>
     </div>
+{% endif %}
+
+<div class="d-flex justify-content-between page-header mb-4">
+    <div>
+        <div class="eyebrow mb-2">Visão geral</div>
+        <div class="d-flex flex-row justify-content-start gap-4 align-items-center">
+            <h1 class="page-title mb-1">
+                
+                {% if global_list %}
+                    Gerenciar Consultas
+                {% else %}
+                    Minhas Consultas
+                {% endif %}
+            </h1>
+            <div>
+                
+                {% if global_list %}
+                    <a href="{% url 'appointments:add' %}" class="btn btn-sm btn-outline-primary p-1" 
+                    style="font-size: small;">Registrar +</a>
+                {% endif %}
+            </div>
+        </div>
+        
+        {% if not global_list %}
+        <p class="text-secondary mb-0">Organize seus atendimentos em um só lugar.</p>
+        {% endif %}
+    </div>
+</div>
+
+<section class="panel p-3">
+    <div class="appointments">
+        {% for appointment in appointments %}
+        <div class="card" style="max-width: 600px;">
+            {% if user.is_staff %}
+            <div class="card-header">
+                <div class="patient-name">{{ appointment.patient.full_name }}</div>
+                <div class="patient-detail">Profissional: {{ appointment.professional.full_name }}</div>
+            </div>
+            {% elif is_professional %}
+            <div class="card-header">
+                <div class="patient-name">{{ appointment.patient.full_name }}</div>
+            </div>
+            {% endif %}
+            <div class="card-body p-4">
+                {% if is_patient %}
+                <div class="patient-detail">Profissional</div>
+                <p class="mb-3">{{ appointment.professional.full_name }}</p>
+                {% endif %}
+                <div class="patient-detail">Assunto</div>
+                <p>{{ appointment.subject }}</p>
+                <div class="patient-detail">Data e hora</div>
+                <p><strong>{{ appointment.date }}</strong> às {{ appointment.time }}</p>
+                <div class="patient-detail">Detalhes</div>
+                <p>{{ appointment.details }}</p>
+                <span class="badge bg-light text-dark border">{{ appointment.get_status_display }}</span>
+            </div>
+            {% if user.is_staff %}
+            <div class="card-footer d-flex gap-2">
+                <a href="{% url 'appointments:edit' id=appointment.id %}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                <a href="{% url 'appointments:delete' id=appointment.id confirm=0 %}" class="btn btn-sm btn-outline-danger">Excluir</a>
+            </div>
+            {% endif %}
+        </div>
+        {% empty %}
+        <div class="empty-state"><div class="empty-icon mb-3">✦</div><h3 class="h5">Nenhuma consulta agendada</h3><p class="mb-0">As consultas aparecerão aqui quando forem cadastradas.</p></div>
+        {% endfor %}
+    </div>
+</section>
 {% endblock content %}
+
+
+{% block script %}
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+[...tooltipTriggerList].map(el => new bootstrap.Tooltip(el));
+    </script>
+{% endblock script %}
     

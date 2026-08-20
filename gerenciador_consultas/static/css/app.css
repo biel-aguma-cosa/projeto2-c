@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+:root { --ink:#17212b; --muted:#6d7b88; --line:#e4e9ec; --soft:#f5f8f8; --brand:#0e766e; --brand-dark:#075e58; --accent:#f3b562; }
+body { background:#f7faf9; color:var(--ink); font-family:'DM Sans',sans-serif; }
+h1,h2,h3,h4,h5,.brand-name { font-family:'Space Grotesk',sans-serif; }
+.navbar { background:#102d35; }
+.brand-mark { background:var(--accent); color:#102d35; width:36px; height:36px; display:grid; place-items:center; border-radius:10px; font-weight:700; }
+.brand-name { color:white; font-size:1.05rem; }
+.subnav { background:#16434b; }
+.btn-nav { color:#dceceb; border-color:transparent; }
+.btn-nav:hover { color:white; background:rgba(255,255,255,.1); }
+.footer { color:var(--muted); border-top:1px solid var(--line); background:white; }
+.page-shell { max-width:1260px; }
+.page-title { font-size:clamp(1.8rem,3vw,2.5rem); }
+.eyebrow { color:var(--brand); font-size:.76rem; font-weight:700; letter-spacing:.13em; text-transform:uppercase; }
+.panel,.card { background:white; border:1px solid var(--line); border-radius:16px; }
+.card-header,.card-footer { background:var(--soft); border-color:var(--line); }
+.stat-card { background:white; border:1px solid var(--line); border-radius:14px; padding:1.15rem 1.25rem; height:100%; }
+.stat-number { font:700 1.75rem 'Space Grotesk',sans-serif; }
+.stat-label,.patient-detail { color:var(--muted); font-size:.82rem; }
+.form-control,.form-select { border-color:#d8e0e3; border-radius:9px; padding:.65rem .8rem; }
+.form-control:focus,.form-select:focus { border-color:var(--brand); box-shadow:0 0 0 .2rem rgba(14,118,110,.12); }
+.btn-primary { background:var(--brand); border-color:var(--brand); }
+.btn-primary:hover { background:var(--brand-dark); border-color:var(--brand-dark); }
+.btn-outline-secondary { color:#50616c; border-color:#cbd5d9; }
+.table { margin-bottom:0; }
+.table > :not(caption) > * > * { padding:1rem 1.15rem; border-bottom-color:var(--line); vertical-align:middle; }
+.table thead th { background:#fbfcfc; color:var(--muted); font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap; }
+.appointments { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; width:100%; }
+.appointments .card { height:100%; }
+.empty-state { padding:4rem 1rem; text-align:center; color:var(--muted); }
+.empty-icon { background:#e8f4f2; border-radius:50%; color:var(--brand); display:inline-grid; height:54px; place-items:center; width:54px; }
+.errorlist { font-size:.8rem; color:#b34f48; margin:.35rem 0 0; padding:0; list-style:none; }
+@media (max-width:767px) { .page-header { align-items:flex-start !important; flex-direction:column; gap:1rem; } .table-wrap { overflow-x:auto; } .table { min-width:780px; } }
