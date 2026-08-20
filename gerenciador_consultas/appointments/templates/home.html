@@ -3,21 +3,17 @@
 
 {% block content %}
     <section class="panel p-4 p-md-5 mb-4">
-        <div class="eyebrow mb-2">Cuidado em primeiro lugar</div>
         <h1 class="page-title mb-2">Bem-vindo à Clínica Saúde Viva</h1>
-        <p class="text-secondary mb-0">Acompanhe seus atendimentos e encontre o cuidado de que precisa em um só lugar.</p>
     </section>
     <div class="row g-3">
         <div class="col-md-6"><div class="card h-100"><div class="card-body p-4 d-flex flex-column">
                 <div class="eyebrow mb-2">Agenda</div><h2 class="h4">Suas consultas</h2>
-                <p class="text-secondary">Consulte seus próximos atendimentos e acompanhe seus compromissos.</p>
                 <a href="{% url 'appointments:list' %}" class="btn btn-primary mt-auto align-self-start">Ver consultas</a>
             </div>
         </div>
         </div>
         <div class="col-md-6"><div class="card h-100"><div class="card-body p-4 d-flex flex-column">
                 <div class="eyebrow mb-2">Conta</div><h2 class="h4">Seu perfil</h2>
-                <p class="text-secondary">Acesse seus dados pessoais e mantenha suas informações atualizadas.</p>
                 <a href="{% url 'users:index' %}" class="btn btn-outline-secondary mt-auto align-self-start">Meu perfil</a>
             </div>
         </div>
