@@ -11,7 +11,7 @@ def view_appointment(request, id):
     context = dict()
     user = request.user
 
-    context['appointment'] = Appointment.objects.get(id=id)
+    context['appointment'] = get_object_or_404(Appointment,id=id)
 
     if is_patient := hasattr(user, 'patient'):
             context['patient'] = user.patient       
@@ -26,10 +26,11 @@ def view_appointment(request, id):
 
 @login_required
 def list_view(request):
-    context = dict()
-
     if request.user.is_staff:
-        return render(request, 'list.html', {'appointments':Appointment.objects.all()})
+        return render(request, 'list.html', {
+            'appointments' : Appointment.objects.all(),
+            'global_list'  : True,
+            })
     else:
         return redirect('appointments:my_list')
 
@@ -46,7 +47,7 @@ def my_list_view(request):
         context['is_professional'] = is_professional
         context['appointments'] = context['professional'].appointments.all
     
-        return render(request, 'list.html', context)
+    return render(request, 'list.html', context)
 
 @login_required
 def edit_view(request, id):
@@ -73,14 +74,20 @@ def add_view(request):
         else:
             form = AppointmentForm()
 
-    return render(request,'edit.html',{'form':form})
+    return render(request,'add.html',{'form':form})
 
 @login_required
-def delete_view(request, id):
+def delete_view(request, id, confirm):
     if request.user.is_staff:
         appointment = get_object_or_404(Appointment,id=id)
-        if appointment:
+        if confirm := bool(confirm):
             appointment.delete()
+        else:
+            return render(request, 'list.html', {
+                'appointment' : appointment,
+                'appointments': Appointment.objects.all(),
+                'overlay' : not confirm,
+            })
     return redirect('appointments:list')
 
 def index_view(request):

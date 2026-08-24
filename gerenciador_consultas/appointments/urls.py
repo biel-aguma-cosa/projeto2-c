@@ -12,5 +12,5 @@ urlpatterns = [
 
     path('register/'      , views.add_view       , name='add'   ),
     path('edit/<int:id>/' , views.edit_view      , name='edit'  ),
-    path('del/<int:id>/'  , views.delete_view    , name='delete'),
+    path('del/<int:id>/<int:confirm>'  , views.delete_view    , name='delete'),
 ]

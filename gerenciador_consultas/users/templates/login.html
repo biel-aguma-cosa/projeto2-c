@@ -1,26 +1,14 @@
 {% extends 'base.html' %}
 
-{% block title %}
-    Fazer Login
-{% endblock title %}
-
-
 {% block content %}
-    <div class="container mt-4 d-flex align-items-center flex-column">
-        <h4>Fazer Login</h4>
-        <div class="card d-flex p-5">
-            <div class="card-body">
+    <div class="row justify-content-center"><div class="col-md-6 col-lg-5"><div class="mb-4"><div class="eyebrow mb-2">Acesso</div><h1 class="page-title mb-1">Fazer login</h1><p class="text-secondary">Entre para acompanhar sua agenda.</p></div>
+        <div class="panel p-4 p-md-5">
                 <form action="{% url 'users:login' %}" method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <button type="submit" class="btn btn-primary">
-                        Entrar
-                    </button>
+                    <button type="submit" class="btn btn-primary">Entrar</button>
                 </form>
-            </div>
-            <div class="card-footer">
-                <a href="{% url 'users:register' %}"><small>Registrar-se</small></a>
-            </div>
+            <div class="border-top mt-4 pt-3"><a href="{% url 'users:register' %}" class="text-secondary">Ainda não possui cadastro? Registrar-se</a></div>
         </div>
     </div>
 {% endblock content %}
