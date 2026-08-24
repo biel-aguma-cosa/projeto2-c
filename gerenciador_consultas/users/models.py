@@ -14,6 +14,7 @@ class PatientManager(models.Manager):
         email = email
 
         _username = name
+        username  = _username
         number = 1
         while User.objects.filter(username=username).exists():
             username = f'{_username}{number}'
@@ -65,10 +66,11 @@ class ProfessionalManager(models.Manager):
 
         #user
         _username = f'{name.lower()}.{last_name.lower()}'
-        username = _username
+        username  = _username
         n = 1
         while User.objects.filter(username=username).exists():
             username = f'{_username}.{n}'
+            n += 1
         email    = f'{username}@domain.name'
         password = f'{last_name.capitalize()}321'
         user = User.objects.create_user(
