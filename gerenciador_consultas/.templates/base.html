@@ -22,6 +22,12 @@
         <div class="container page-shell d-flex flex-row gap-2 px-0">
         {% if user.is_authenticated %}
         <a class="btn btn-sm btn-nav" href="{% url 'appointments:my_list' %}">Minhas Consultas</a>
+        
+        {% if user.is_staff %}
+            <a class="btn btn-sm btn-nav" href="{% url 'users:list' %}">Profissionais</a>
+            <a class="btn btn-sm btn-nav" href="{% url 'appointments:list' %}">Consultas</a>
+        {% endif %}
+            
         <div class="dropdown ms-auto">
             <button class="btn btn-sm btn-nav dropdown-toggle" data-bs-toggle="dropdown">
                 {% if user.patient %}
@@ -35,8 +41,6 @@
             <ul class="dropdown-menu p-3">
                 <li><a class="dropdown-item" href="{% url 'users:index' %}">Meu Perfil</a></li>
                 {% if user.is_staff %}
-                <li><a class="dropdown-item" href="{% url 'users:list' %}">Profissionais</a></li>
-                <li><a class="dropdown-item" href="{% url 'appointments:list' %}">Consultas</a></li>
                 <li><a class="dropdown-item" href="{% url 'admin:index' %}">Django admin</a></li>
                 {% endif %}
                 <li class="dropdown-divider"></li>
