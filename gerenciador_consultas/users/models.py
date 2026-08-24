@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
+
+
 class PatientManager(models.Manager):
     def new(self, full_name, phone, email = None):
         full_name = full_name.upper()
@@ -11,7 +13,13 @@ class PatientManager(models.Manager):
         phone = phone
         email = email
 
-        user    = User.objects.create_user(name, email, phone)
+        _username = name
+        number = 1
+        while User.objects.filter(username=username).exists():
+            username = f'{_username}{number}'
+            number += 1
+
+        user    = User.objects.create_user(username, email, phone)
         patient = self.create(
             name  = name ,
             full_name = full_name,
