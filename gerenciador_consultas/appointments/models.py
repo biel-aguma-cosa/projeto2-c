@@ -13,7 +13,7 @@ class Appointment(models.Model):
         verbose_name='Paciente', related_name='appointments'
     )
     professional = models.ForeignKey(
-        Professional, on_delete=models.CASCADE,
+        Professional, on_delete=models.PROTECT,
         verbose_name='Profissional', related_name='appointments'
     )
 
